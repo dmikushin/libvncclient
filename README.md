@@ -2,12 +2,12 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/fao6m1md3q4g2bwn/branch/master?svg=true)](https://ci.appveyor.com/project/bk138/libvncserver/branch/master)
 [![Help making this possible](https://img.shields.io/badge/liberapay-donate-yellow.png)](https://liberapay.com/LibVNC/donate) [![Join the chat at https://gitter.im/LibVNC/libvncserver](https://badges.gitter.im/LibVNC/libvncserver.svg)](https://gitter.im/LibVNC/libvncserver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-LibVNCServer: A library for easy implementation of a VNC server.
+LibVNCClient: A library for easy implementation of a VNC client.
 Copyright (C) 2001-2003 Johannes E. Schindelin
 
 If you have a general question, it's best to [ask in the community chat](https://gitter.im/LibVNC/libvncserver). If your concern is about a bug or feature request instead, please use [the issue tracker](https://github.com/LibVNC/libvncserver/issues).
 
-If you already used LibVNCServer, you probably want to read [NEWS](NEWS.md).
+If you already used LibVNCClient, you probably want to read [NEWS](NEWS.md).
 
 What is it?
 ===========
@@ -15,67 +15,64 @@ What is it?
 [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing) is a set of programs
 using the [RFB (Remote Frame Buffer)](https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst)
 protocol. They are designed to "export" a frame buffer via net: you set up a server and can
-connect to it via VNC viewers. If the server supports WebSockets (which LibVNCServer does), 
-you can also connect using an in-browser VNC viewer like [noVNC](https://novnc.com). 
+connect to it via VNC viewers. 
 
-It is already in wide use for administration, but it is not that easy to program a server yourself.
+It is already in wide use for administration, but it is not that easy to program a client yourself.
 
-This has been changed by LibVNCServer.
+This has been changed by LibVNCClient.
 
 Projects using it
 =================
 
 The [homepage has a tentative list](https://libvnc.github.io/#projects-using) of
-all the projects using either LibVNCServer or LibVNCClient or both.
+all the projects using LibVNCClient.
 
 RFB Protocol Support Status
 ===========================
 
 ## [Security Types](https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#712security)
 
-|Name               |Number      | LibVNCServer | LibVNCClient |
-|-------------------|------------|--------------|--------------|
-|None               |          1 |            ✔ |            ✔ |
-|VNC Authentication |          2 |            ✔ |            ✔ |
-|SASL               |         20 |              |            ✔ |
-|MSLogon            | 0xfffffffa |              |            ✔ |
-|Apple ARD          |         30 |              |            ✔ |
-|TLS                |         18 |              |            ✔ |
-|VeNCrypt           |         19 |              |            ✔ |
-|UltraVNC MSLogonII |        113 |              |            ✔ |
+|Name               |Number      | LibVNCClient |
+|-------------------|------------|--------------|
+|None               |          1 |            ✔ |
+|VNC Authentication |          2 |            ✔ |
+|SASL               |         20 |            ✔ |
+|MSLogon            | 0xfffffffa |            ✔ |
+|Apple ARD          |         30 |            ✔ |
+|TLS                |         18 |            ✔ |
+|VeNCrypt           |         19 |            ✔ |
+|UltraVNC MSLogonII |        113 |            ✔ |
 
 ## [Encodings](https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#76encodings)
 
-| Name     | Number | LibVNCServer | LibVNCClient |
-|----------|--------|--------------|--------------|
-| Raw      | 1      | ✔            | ✔            |
-| CopyRect | 2      | ✔            | ✔            |
-| RRE      | 3      | ✔            | ✔            |
-| CoRRE    | 4      | ✔            | ✔            |
-| Hextile  | 5      | ✔            | ✔            |
-| Zlib     | 6      | ✔            | ✔            |
-| Tight    | 7      | ✔            | ✔            |
-| Ultra    | 9      | ✔            | ✔            |
-| TRLE     | 15     |              | ✔            |
-| ZRLE     | 16     | ✔            | ✔            |
-| ZYWRLE   | 17     | ✔            | ✔            |
-| TightPNG | -260   | ✔            |              |
+| Name     | Number | LibVNCClient |
+|----------|--------|--------------|
+| Raw      | 1      | ✔            |
+| CopyRect | 2      | ✔            |
+| RRE      | 3      | ✔            |
+| CoRRE    | 4      | ✔            |
+| Hextile  | 5      | ✔            |
+| Zlib     | 6      | ✔            |
+| Tight    | 7      | ✔            |
+| Ultra    | 9      | ✔            |
+| TRLE     | 15     | ✔            |
+| ZRLE     | 16     | ✔            |
+| ZYWRLE   | 17     | ✔            |
 
 ## Transports
 
-| Name                       | LibVNCServer | LibVNCClient |
-|----------------------------|--------------|--------------|
-| RFB                        | ✔            | ✔            |
-| Encrypted RFB via VeNCrypt |              | ✔            |
-| Encrypted RFB via AnonTLS  |              | ✔            |
-| Websockets                 | ✔            |              |
-| Encrypted Websockets       | ✔            |              |
+| Name                       | LibVNCClient |
+|----------------------------|--------------|
+
+| RFB                        | ✔            |
+| Encrypted RFB via VeNCrypt | ✔            |
+| Encrypted RFB via AnonTLS  | ✔            |
 
 
 How to build
 ============
 
-LibVNCServer uses CMake, which you can download [here](https://cmake.org/download/)
+LibVNCClient uses CMake, which you can download [here](https://cmake.org/download/)
 or, better yet, install using your platform's package manager (apt, yum, brew, macports,
 chocolatey, etc.).
 
@@ -86,19 +83,16 @@ You can then build via:
     cmake ..
     cmake --build .
 
-Crypto support in LibVNCClient and LibVNCServer can use different backends:
+Crypto support in LibVNCClient can use different backends:
 
  * OpenSSL   (`-DWITH_OPENSSL=ON -DWITH_GCRYPT=OFF`)
-   * Supports all authentication methods in LibVNCClient and LibVNCServer.
-   * Supports WebSockets in LibVNCServer.
+   * Supports all authentication methods in LibVNCClient.
  * Libgcrypt (`-DWITH_OPENSSL=OFF -DWITH_GCRYPT=ON`)
-   * Supports all authentication methods in LibVNCClient and LibVNCServer.
-   * Supports WebSockets in LibVNCServer.
+   * Supports all authentication methods in LibVNCClient.
  * Included  (`-DWITH_OPENSSL=OFF -DWITH_GCRYPT=OFF`)
-   * Supports _only VNC authentication_ in LibVNCClient and LibVNCServer.
-   * Supports WebSockets in LibVNCServer.
+   * Supports _only VNC authentication_ in LibVNCClient.
 
-Transport Layer Security support in LibVNCClient and LibVNCServer can use:
+Transport Layer Security support in LibVNCClient can use:
 
  * OpenSSL (`-DWITH_OPENSSL=ON -DWITH_GNUTLS=OFF`)
  * GnuTLS  (`-DWITH_OPENSSL=OFF -DWITH_GNUTLS=ON`)
@@ -148,74 +142,33 @@ Cutting a Release
 How to use
 ==========
 
-See the [LibVNCServer API intro documentation](https://libvnc.github.io/doc/html/libvncserver_doc.html)
-for how to create a server instance, wire up input handlers and handle cursors.
+See the LibVNCClient API documentation for how to create a client instance and connect to VNC servers.
 
-In case you prefer to learn LibVNCServer by example, have a look at the servers in the
-[examples/server](examples/server) directory. 
+To learn LibVNCClient by example, have a look at the clients in the
+[examples/client](examples/client) directory.
 
-For LibVNCClient, examples can be found in [examples/client](examples/client).
-
-Incorporating LibVNCServer/LibVNCClient into your build system
+Incorporating LibVNCClient into your build system
 --------------------------------------------------------------
 
 The install process installs [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
-.pc files for LibVNCServer as well as LibVNCClient which you can use in your build
-system via the usual `pkg-config --cflags libvncserver` et al.
+.pc files for LibVNCClient which you can use in your build
+system via the usual `pkg-config --cflags libvncclient` et al.
 
-If using CMake, LibVNCServer versions > 0.9.13 provide CMake configure files so
+If using CMake, LibVNCClient versions > 0.9.13 provide CMake configure files so
 in your project's CMakeLists.txt, you can say:
 
 ```cmake
-find_package(LibVNCServer)
-if(LibVNCServer_FOUND)
+find_package(LibVNCClient)
+if(LibVNCClient_FOUND)
 	# libs and headers location are now accessible via properties, but you only
 	# need to add the respective export target to your project's target_link_libraries,
 	# cmake will automatically add libs and headers
 	# eg: add client (YOUR_PROJECT_TARGET being a placeholder for your real target -
 	# it must be defined by add_executable or add_library):
-	target_link_libraries(YOUR_PROJECT_TARGET LibVNCServer::vncclient)
-	# add server:
-	target_link_libraries(YOUR_PROJECT_TARGET LibVNCServer::vncserver)
+	target_link_libraries(YOUR_PROJECT_TARGET LibVNCClient::vncclient)
 endif()
 ```
 
-Using Websockets
-----------------
-
-You can try out the built-in websockets support by starting the example server
-from the [webclients](webclients) directory via `../examples/example`. It's
-important to _not_ start from within the `examples` directory as otherwise the
-server program won't find its HTTP index file. The server program will tell you
-a URL to point your web browser to. There, you can click on the noVNC-Button to
-connect using the noVNC viewer git submodule (installable via
-`git submodule update --init`).
-
-### Using Secure Websockets
-
-If you don't already have an SSL cert that's trusted by your browser, the most
-comfortable way to create one is using [minica](https://github.com/jsha/minica).
-On Debian-based distros, you can install it via `sudo apt install minica`, on
-MacOS via `brew install minica`.
-
-Go to the webclients directory and create host and CA certs via:
-
-	cd webclients
-	minica -org "LibVNC" $(hostname)
-
-Trust the cert in your browser by importing the created `cacert.crt`, e.g. for
-Firefox go to Options->Privacy & Security->View Certificates->Authorities and
-import the created `cacert.crt`, tick the checkbox to use it for trusting
-websites. For other browsers, the process is similar.
-
-Then, you can finally start the example server, giving it the created host
-key and cert:
-
-	../examples/example -sslkeyfile $(hostname).key -sslcertfile $(hostname).crt
-
-The server program will tell you a URL to point your web browser to. There,
-you can click on the noVNC-encrypted-connection-button to connect using the
-bundled noVNC viewer using an encrypted Websockets connection.
 
 
 Achieving good performance on 'slow' links
@@ -250,9 +203,7 @@ bytes that get sent per framebuffer update:
   set a default (native) one in the server. With the latter approach, however,
   you very probably also have to change the way your framebuffer data gets written,
   so the first client-side one should be preferred.
-* Send a scaled-down version of your framebuffer. You can do the scaling in your
-  application feeding data into LibVNCServer's framebuffer (would affect all clients)
-  or let LibVNCServer do the work for you if your client requests a scaled screen
+* Send a scaled-down version of your framebuffer. Your client can request a scaled screen
   via a [SetScale or SetScaleFactor message](https://github.com/rfbproto/rfbproto/blob/513c651fff1b213188daa5069444145a63e71617/rfbproto.rst#L1344)
   (this is per-client scaling - UltraVNC viewers can request this).
   
@@ -275,13 +226,13 @@ from GPL. You have to give proper credit with both.
 
 Frequently Asked Questions
 --------------------------
-> Our commercial product wants to make use of LibVNCServer to create our own VNC server and distribute. Will this be considered derivative work in the GPLv2 context?
+> Our commercial product wants to make use of LibVNCClient to create our own VNC client and distribute. Will this be considered derivative work in the GPLv2 context?
 
-Yes. Please note that while you would have to stick to the GPL for your program if you link to LibVNCServer/LibVNCClient, you do not have to make your code public in case you use the derivative work internally in your organisation, see https://www.gnu.org/licenses/gpl-faq.html#GPLRequireSourcePostedPublic
+Yes. Please note that while you would have to stick to the GPL for your program if you link to LibVNCClient, you do not have to make your code public in case you use the derivative work internally in your organisation, see https://www.gnu.org/licenses/gpl-faq.html#GPLRequireSourcePostedPublic
 
-> Does modifying LibVNCServer code or not make any difference in determining whether our VNC server will be considered derivative work?
+> Does modifying LibVNCClient code or not make any difference in determining whether our VNC client will be considered derivative work?
 
-No. By simply linking to LibVNCServer/LibVNCClient, your program becomes derivative work. 
+No. By simply linking to LibVNCClient, your program becomes derivative work. 
 
 
 License
